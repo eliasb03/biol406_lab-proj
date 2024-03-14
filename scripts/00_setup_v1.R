@@ -68,3 +68,14 @@ clean_data_path <- file.path("data", "clean") # Creating File Path to the clean 
 clean_file_name <- "forest_understory_plant_data.csv" # titling the clean dataframe export
 write.csv(clean.data, file = file.path(clean_data_path, clean_file_name), row.names = FALSE)
 
+# Creating a plant level average plot ####
+plant.data <- clean.data %>%
+  group_by(plant.id) %>%
+  summarize(avg.leaf.area = mean(leaf.area), # finding leaf.area average
+            avg.canopy.cover = mean(canopy.cover)) # finding canopy.cover average
+  # would like to find a way to keep most of the other columns, might be able to do it with first() function
+# Saving this dataset to clean data also
+plant_level_file_name <- "plant_level_data.csv" # titling the clean dataframe export
+write.csv(plant.data, file = file.path(clean_data_path, plant_level_file_name), row.names = FALSE)
+
+
