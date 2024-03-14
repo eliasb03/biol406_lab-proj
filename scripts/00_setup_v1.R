@@ -9,6 +9,7 @@
 library(dplyr)
 library(tidyverse)
 library(skimr)
+library(rmarkdown)
 
 # Importing Data #### 
 raw_data_path <- file.path("data", "raw") # Creating File Path to the raw folder within the data structure
@@ -64,6 +65,6 @@ rm("raw.data")
 rm("raw.data.long")
 ## save clean data to computer
 clean_data_path <- file.path("data", "clean") # Creating File Path to the clean  folder within the data structure
-clean_file_name <- "clean.data.csv" # titling the clean dataframe export
+clean_file_name <- "forest_understory_plant_data.csv" # titling the clean dataframe export
 write.csv(clean.data, file = file.path(clean_data_path, clean_file_name), row.names = FALSE)
 
