@@ -5,11 +5,14 @@
 # Description: Initial R script for the setup of the BIOL 406 Lab project
 # This script should import packages, prepare functions, and import data 
 #------------------------------
+
 # Import Packages ####
 library(dplyr)
 library(tidyverse)
 library(skimr)
 library(rmarkdown)
+library(lme4)
+library(lmerTest)
 
 # Importing Data #### 
 raw_data_path <- file.path("data", "raw") # Creating File Path to the raw folder within the data structure
@@ -72,9 +75,16 @@ write.csv(clean.data, file = file.path(clean_data_path, clean_file_name), row.na
 ## Creating a new dataframe that averages the data to the individual plant level, such that there is a single occurance of avg.leaf.area and avg.canopy.cover for each plant, the level of replication
 plant.data <- clean.data %>%
   group_by(plant.id) %>%
-  summarize(avg.leaf.area = mean(leaf.area), # finding leaf.area average
-            avg.canopy.cover = mean(canopy.cover)) # finding canopy.cover average
-  # would like to find a way to keep most of the other columns, might be able to do it with first() function
+  summarize(
+    avg.leaf.area = mean(leaf.area), # finding leaf.area average
+    avg.canopy.cover = mean(canopy.cover), # finding canopy.cover average
+    plot = first(plot),
+    height = first(height),
+    aspect = first(aspect),
+    slope = first(slope),
+    perc.conif = first(perc.conif),
+    perc.decid = first(perc.decid)
+  )
 
 # Saving this dataset to ~/data/clean also
 plant_level_file_name <- "plant_level_data.csv" # titling the clean dataframe export
