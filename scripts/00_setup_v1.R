@@ -13,7 +13,7 @@ library(rmarkdown)
 
 # Importing Data #### 
 raw_data_path <- file.path("data", "raw") # Creating File Path to the raw folder within the data structure
-raw_file_name <- "raw_datasheet_03_13.csv" # Name of the file to be imported below
+raw_file_name <- "raw_datasheet_03_20.csv" # Name of the file to be imported below
   # The above works fine, but will need to be updated for different datasheet titles, will need to rework this to a more reproducible format later
 
 raw.data <- read.csv(file.path(raw_data_path, raw_file_name), header = TRUE, skip = 3) # Importing datasheet from file path
@@ -69,13 +69,14 @@ clean_file_name <- "forest_understory_plant_data.csv" # titling the clean datafr
 write.csv(clean.data, file = file.path(clean_data_path, clean_file_name), row.names = FALSE)
 
 # Creating a plant level average plot ####
+## Creating a new dataframe that averages the data to the individual plant level, such that there is a single occurance of avg.leaf.area and avg.canopy.cover for each plant, the level of replication
 plant.data <- clean.data %>%
   group_by(plant.id) %>%
   summarize(avg.leaf.area = mean(leaf.area), # finding leaf.area average
             avg.canopy.cover = mean(canopy.cover)) # finding canopy.cover average
   # would like to find a way to keep most of the other columns, might be able to do it with first() function
-# Saving this dataset to clean data also
-plant_level_file_name <- "plant_level_data.csv" # titling the clean dataframe export
-write.csv(plant.data, file = file.path(clean_data_path, plant_level_file_name), row.names = FALSE)
 
+# Saving this dataset to ~/data/clean also
+plant_level_file_name <- "plant_level_data.csv" # titling the clean dataframe export
+write.csv(plant.data, file = file.path(clean_data_path, plant_level_file_name), row.names = FALSE) # Writing to .csv
 
