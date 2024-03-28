@@ -7,23 +7,34 @@
 # it may also develop a mixed model
 #------------------------------
 
-# Creating a Linear Model
-## Checking assumption of normality
-hist(plant.data$avg.leaf.area)
-hist(plant.data$avg.canopy.cover)
-## Plotting the scatterplot
-plot(avg.leaf.area ~ avg.canopy.cover, data = plant.data)
-## Creating the Linear Model
-area.cover.lm <- lm(avg.leaf.area ~ avg.canopy.cover, data = plant.data)
-## Viewing th Linear model
-summary(area.cover.lm)
+# Creating a Linear Model Obselete ####
+## Checking assumptions 
+## Normality - Creating histograms
+# hist(plant.data$avg.leaf.area) # Normal!
+# hist(plant.data$avg.canopy.cover) # Normal?
+# 
+# ## Linearity - Plotting the Scatterplot 
+# plot(avg.leaf.area ~ avg.canopy.cover, data = plant.data) # Hard to say
+# 
+# ## Creating simple Linear Model
+# area.cover.lm <- lm(avg.leaf.area ~ avg.canopy.cover, data = plant.data)
+# 
+# # Other plots to check assumptions
 # plot(area.cover.lm)
+# 
+# ## Viewing the Linear model
+# summary(area.cover.lm)
 
 
-# Creating a Mixed Linear Model
-area.cover.mlm <- lmer(avg.leaf.area ~ avg.canopy.cover + (1|plot) + (1|height), data = plant.data)
-# plot is the grouping variable, including height here as a grouping also
+
+# Creating a Linear Model with all Fixed Effects ####
+area.cover.lm2 <- lm(avg.leaf.area ~ avg.canopy.cover +  height + plot, data = plant.data)
+  # plot is the grouping variable, including height here as a grouping also
+
+## Checking Assumptions
+  # Linearity
+  # Constant Variance in Errors
+  # Independence of Errors
+  # Normal Distribution of Errors
+
 summary(area.cover.mlm)
-# the below treats height as another fixed effect
-area.cover.mlm2 <- lmer(avg.leaf.area ~ avg.canopy.cover + height + (1|plot), data = plant.data)
-summary(area.cover.mlm2)
