@@ -88,6 +88,8 @@ plant.data <- clean.data %>%
     perc.decid = first(perc.decid)
   )
 
+plant.data$plot <- as.factor(plant.data$plot)
+
 # Saving this dataset to ~/data/clean also
 plant_level_file_name <- "plant_level_data.csv" # titling the clean dataframe export
 write.csv(plant.data, file = file.path(clean_data_path, plant_level_file_name), row.names = FALSE) # Writing to .csv
