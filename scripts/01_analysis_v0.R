@@ -37,4 +37,4 @@ area.cover.lm2 <- lm(avg.leaf.area ~ avg.canopy.cover +  height + plot, data = p
   # Independence of Errors
   # Normal Distribution of Errors
 
-summary(area.cover.mlm)
+summary(area.cover.lm2)
