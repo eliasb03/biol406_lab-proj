@@ -27,7 +27,9 @@
 
 
 
+
 # Creating a Linear Model with all Fixed Effects ####
+# Including plant 12-2 outlier 
 area.cover.lm2 <- lm(avg.leaf.area ~ avg.canopy.cover +  height + plot, data = plant.data)
   # plot is the grouping variable, including height here as a grouping also
 
@@ -38,3 +40,16 @@ area.cover.lm2 <- lm(avg.leaf.area ~ avg.canopy.cover +  height + plot, data = p
   # Normal Distribution of Errors
 
 summary(area.cover.lm2)
+
+# Excluding plant 12-2 outlier
+plant.data.no <- plant.data %>% filter(plant.id != "12-2")
+area.cover.lm3 <- lm(avg.leaf.area ~ avg.canopy.cover +  height + plot, data = plant.data.no)
+# plot is the grouping variable, including height here as a grouping also
+
+## Checking Assumptions
+# Linearity
+# Constant Variance in Errors
+# Independence of Errors
+# Normal Distribution of Errors
+
+summary(area.cover.lm3)
