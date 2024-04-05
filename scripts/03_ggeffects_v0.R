@@ -56,6 +56,6 @@ area.cover.plot <-
         panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"))
 
-
+# Saving plots
 ggsave("CanopyArea.scatterplot.outlier.png", area.cover.plot.outlier, path = "figures/", width = 2000, height = 1000, units = "px")
 ggsave("CanopyArea.scatterplot.png", area.cover.plot, path = "figures/", width = 2300, height = 1500, units = "px")
