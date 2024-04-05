@@ -61,6 +61,5 @@ area.cover.lm <- lm(avg.leaf.area ~ avg.canopy.cover + height + plot, data = pla
 
 # Excluding Plant 12-2 outlier
 plant.data.no <- plant.data %>% filter(plant.id != "12-2") # filtering outlier
-
 area.cover.lm.no <- lm(avg.leaf.area ~ avg.canopy.cover + height + plot, data = plant.data.no)
 

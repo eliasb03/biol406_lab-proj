@@ -90,6 +90,10 @@ plant.data <- clean.data %>%
 
 plant.data$plot <- as.factor(plant.data$plot)
 
+plant.data <- plant.data %>%
+  mutate(plot_id = paste0("plot", match(plot, unique(plot)))) 
+
+
 # Saving this dataset to ~/data/clean also
 plant_level_file_name <- "plant_level_data.csv" # titling the clean dataframe export
 write.csv(plant.data, file = file.path(clean_data_path, plant_level_file_name), row.names = FALSE) # Writing to .csv
