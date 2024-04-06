@@ -10,7 +10,7 @@ summary(area.cover.lm)
 lm.prediction <- as.data.frame(ggpredict(area.cover.lm, terms = "avg.canopy.cover"))
 
 area.cover.plot.outlier <-
-  ggplot(canopy.prediction) +
+  ggplot(lm.prediction) +
   geom_point(data = plant.data, aes(x = avg.canopy.cover, y = avg.leaf.area, color = plot_id), size = 2, alpha = 0.6) +
   geom_ribbon(aes(x = x, ymin = conf.low, ymax = conf.high), alpha = 0.2) +
   geom_line(aes(x = x, y = predicted), color = "red") +

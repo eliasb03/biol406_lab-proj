@@ -14,6 +14,7 @@ library(rmarkdown)
 library(lme4)
 library(lmerTest)
 library(ggeffects)
+library(kableExtra)
 
 
 # Importing Data #### 
