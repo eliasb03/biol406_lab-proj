@@ -100,6 +100,43 @@ slope.hist <- ggplot(plant.data, aes(x = slope)) +
         plot.background = element_rect(fill = "white"),
         legend.position = "none")
 
+SRI.hist <- 
+  ggplot(plant.data, aes(x = SRI)) +
+  geom_histogram(fill = "darkgreen", color = "black", alpha = 0.6) +
+  labs(title = "Histogram of SRI of Plant Samples",
+       x = "SRI (unit-less)",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 20, face = "bold"),
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12),
+        axis.line = element_line(color = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill = "white"),
+        plot.background = element_rect(fill = "white"),
+        legend.position = "none")
+
+SRI.normal.hist <- 
+  ggplot(plant.data, aes(x = SRIm.normalized)) +
+  geom_histogram(fill = "darkgreen", color = "black", alpha = 0.6) +
+  labs(title = "Histogram of SRI of Plant Samples",
+       x = "SRI (unit-less)",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 20, face = "bold"),
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12),
+        axis.line = element_line(color = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill = "white"),
+        plot.background = element_rect(fill = "white"),
+        legend.position = "none")
+
+#plot(plant.data$aspect, plant.data$SRIm.normalized) # plotting to see if theres a clear relationship or not
+  
+  
 # Saving charts ####
 ggsave("slope.hist.png", slope.hist, path = "figures/", width = 2000, height = 1000, units = "px")
 ggsave("canopy.hist.png", canopy.hist, path = "figures/", width = 2000, height = 1000, units = "px")

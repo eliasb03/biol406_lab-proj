@@ -89,11 +89,42 @@ plant.data <- clean.data %>%
     perc.decid = first(perc.decid)
   )
 
+# Creating plot as a factor variable
 plant.data$plot <- as.factor(plant.data$plot)
-
+plant.data$aspect <- as.numeric(plant.data$aspect)
 plant.data <- plant.data %>%
-  mutate(plot_id = paste0("plot", match(plot, unique(plot)))) 
+  mutate(plot_id = paste0("plot", match(plot, unique(plot)))) %>%
+  mutate(plot_id = as.factor(plot_id))
 
+## Solar Radiation Index as per (Keating, et al. 2010) ####
+latitude <- 49.256 # Latitude estimate for all samples in Pacific Spirit
+
+# Creating Keating SRI and Mediated SRI within Dataframe
+plant.data <- plant.data %>%
+  filter(!is.na(slope)) %>%
+  mutate(
+    aspect_180 = (180 - aspect), # Keating et al. reports to convert aspect by 180 degrees
+    SRI = ((cos(latitude) * cos(slope)) + (sin(latitude) * sin(slope) * # formula outlined in Keating
+                                             cos(aspect_180))),
+    sky.cover = (100 - (avg.canopy.cover)), # Calculating how much sky is visible, inverse of Canopy Cover
+    SRI.mediated = (SRI * sky.cover)
+  ) 
+
+# Normalizing SRI values
+plant.data <- plant.data %>% 
+  mutate(
+    SRI.normalized = (SRI - min(plant.data$SRI, na.rm = TRUE)) / (max(plant.data$SRI, na.rm = TRUE) - min(plant.data$SRI, na.rm = TRUE)), # Normalizing SRI.mediated between 0-1
+     # Integrating canopy cover measurment by multiplication - using sky cover because higher values here correspond to greater light
+    SRI.mediated.normalized = (SRI.mediated - min(plant.data$SRI.mediated)) / 
+      (max(plant.data$SRI.mediated) - min(plant.data$SRI.mediated))
+  )
+
+# Removing 2 outlier points
+# Excluding Plant 12-2 and 12-1 outlier
+plant.data$outlier_points <- plant.data$plant.id %in% c("12-2", # filtering extra high canopy cover and extra low leaf area outlier
+                                                        "12-1") # filter deciduous outlier
+plant.data.no <- plant.data %>% 
+  filter(outlier_points != TRUE)
 
 # Saving this dataset to ~/data/clean also
 plant_level_file_name <- "plant_level_data.csv" # titling the clean dataframe export
