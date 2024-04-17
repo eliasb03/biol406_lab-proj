@@ -1,0 +1,20 @@
+Notes from amy and katie:
+
+When explaining model selection processes a more positive
+relationship isn’t necessary a better model - it’s more about
+model diagnostics
+
+Unclear why removed outlier? This needs to be better
+justified to ensure you're not just removing it to try and create
+the result you want (i.e. does it improve model diagnostics?)
+
+Don’t think we need to know plotID, even though it looks
+nice, extra info the audience doesn’t need to know because
+not related to hypothesis test
+
+Would have been helpful to have a line for mean on
+histograms and comparing it to normal distribution – remind
+the audience what normal and bimodal look like
+
+If you’re doing a multiple linear regression, best to show
+partial residual plots

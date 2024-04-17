@@ -14,7 +14,7 @@ leaf.light.plot <-
   ggplot(lm.light.prediction) +
   geom_point(
     data = plant.data.no,
-    aes(x = SRI.mediated.normalized, y = avg.leaf.area, color = plot_id),
+    aes(x = SRI.mediated.normalized, y = avg.leaf.area),
     size = 2.3,
     alpha = 0.8
   ) +
@@ -95,6 +95,28 @@ height.plot <-
   )
 height.plot
 
+## Plotting Leaf Area based on Light - with plot grouping
+plot.id.plot <-
+  ggplot(aes(x = SRI.mediated.normalized, y = avg.leaf.area, color = plot_id), 
+       data = plant.data.no) +
+  geom_point(
+    size = 2.5,
+    alpha = 1
+  ) +
+  labs(x = "Light Availability (Unitless, Normalized 0-1)",
+       y = "Leaf Area (cm^2)") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 20, face = "bold"),
+    axis.title = element_text(size = 14),
+    axis.text = element_text(size = 12),
+    axis.line = element_line(color = "black"),
+    panel.grid.major = element_line(),
+    panel.grid.minor = element_line(),
+    panel.background = element_rect(fill = "white"),
+    plot.background = element_rect(fill = "white")
+  )
+
 # Saving plots ####
 ggsave(
   "AvailableLight.scatterplot.png",
@@ -115,6 +137,14 @@ ggsave(
 ggsave(
   "height.scatterplot.png",
   height.plot,
+  path = "figures/",
+  width = 2000,
+  height = 1000,
+  units = "px"
+)
+ggsave(
+  "plot.scatterplot.png",
+  plot.id.plot,
   path = "figures/",
   width = 2000,
   height = 1000,

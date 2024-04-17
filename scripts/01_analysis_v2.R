@@ -8,18 +8,32 @@
 #------------------------------
 # Relevant Functions ####
 # Create subset table of numeric variables for summary stats
-summary.input.df <- plant.data %>%
+summary.input.df <- plant.data.no %>%
   mutate(aspect = as.numeric(aspect)) %>%
-  select(!c("plant.id", "plot","plot_id"))
+  select(
+    !c(
+      "plant.id",
+      "plot",
+      "plot_id",
+      "aspect_180",
+      "sky.cover",
+      "SRI",
+      "SRI.mediated",
+      "outlier_points"
+    )
+  )
+# If decide to use outliers:
+# 
+# "annotation_text"
 
 # Summary statistics function
 summary_stats <- function(x) {
-  mean_val <- round(mean(x, na.rm = TRUE), 2)
-  median_val <- round(median(x, na.rm = TRUE), 2)
-  iqr_val <- round(IQR(x, na.rm = TRUE), 2)
-  sd_val <- round(sd(x, na.rm = TRUE), 2)
-  max <- round(max(x, na.rm = TRUE), 2)
-  min <- round(min(x, na.rm = TRUE), 2)
+  mean_val <- round(mean(x, na.rm = TRUE), 3)
+  median_val <- round(median(x, na.rm = TRUE), 3)
+  iqr_val <- round(IQR(x, na.rm = TRUE), 3)
+  sd_val <- round(sd(x, na.rm = TRUE), 3)
+  max <- round(max(x, na.rm = TRUE), 3)
+  min <- round(min(x, na.rm = TRUE), 3)
   num <- round(sum(!is.na(x)), 0)
   
   result <- c(mean_val, median_val, iqr_val, sd_val, max, min, num)
@@ -39,12 +53,12 @@ summary_results <- sapply(summary.input.df, function(x) {
 
 # Creating summary statistics table ####
 # Print the summary results
-custom_col_names <- c("Average Leaf Area (cm^2)", "Average Canopy Area (%)", "Plant Height (cm)", "Plot Aspect (degrees from N)", "Plot Slope (degrees)", "Percent Coniferous Canopy (%)", "Percent Deciduous Canopy (%)")
+custom_col_names <- c("Average Leaf Area (cm^2)", "Average Canopy Area (%)", "Plant Height (cm)", "Plot Aspect \n(degrees from N)", "Plot Slope (degrees)", "Percent Coniferous Canopy (%)", "Percent Deciduous Canopy (%)", "Solar Radiation Index   (Normalized 0-1)", "Canopy Mediated Solar Radiation Index   (Normalized 0-1)")
 
-# kable_table <- kable(summary_results, format = "html", align = "c", col.names = custom_col_names) %>%
-#   kable_styling(full_width = FALSE)
-# 
-# kable_table
+kable_table <- kable(summary_results, format = "html", align = "c", col.names = custom_col_names) %>%
+  kable_styling(full_width = FALSE)
+
+kable_table
 
 # Producing Linear Models ####
 ## Checking assumptions ####
@@ -89,10 +103,11 @@ print(correlation_matrix.no) # weak positive = 0.126
 # Excludes outlier and height
   # Including the outlier leads to overfitting of the model
 leaf.by.light.lm <- lmer(avg.leaf.area ~ SRI.mediated.normalized + (1|plot), data = plant.data.no)
+summary(leaf.by.light.lm)
 
 # Variation including height - worry about the complexity of this model
-# leaf.by.light.height.lm <- lmer(avg.leaf.area ~ SRI.mediated.normalized + height + (1|plot), data = plant.data.no)
-# summary(leaf.by.light.height.lm)
+leaf.by.light.height.lm <- lmer(avg.leaf.area ~ SRI.mediated.normalized + height + (1|plot), data = plant.data.no)
+summary(leaf.by.light.height.lm)
 
 # Comparing Leaf Area to Plant Height
 height.lm <- lm(avg.leaf.area ~ height, data = plant.data.no)

@@ -15,6 +15,7 @@ library(lme4)
 library(lmerTest)
 library(ggeffects)
 library(kableExtra)
+library(sjPlot)
 
 
 # Importing Data #### 
@@ -121,8 +122,9 @@ plant.data <- plant.data %>%
 
 # Removing 2 outlier points
 # Excluding Plant 12-2 and 12-1 outlier
-plant.data$outlier_points <- plant.data$plant.id %in% c("12-2", # filtering extra high canopy cover and extra low leaf area outlier
-                                                        "12-1") # filter deciduous outlier
+plant.data$outlier_points <- plant.data$plant.id %in% c("12-2"# filtering  extra low leaf area outlier
+                                                        ,"12-1" # filter deciduous outlier
+                                                        ) 
 plant.data.no <- plant.data %>% 
   filter(outlier_points != TRUE)
 
